@@ -1,19 +1,33 @@
+/* eslint-disable semi */
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import ContactForm from './ContactForm';
 
-test('renders without errors', () => {
+beforeEach(() => {
+    render(<ContactForm />)
+})
 
+test('renders without errors', () => {
+    // const form = render(<ContactForm />)
+    // expect(form).toBeInTheDocument()
 });
 
 test('renders the contact form header', () => {
-
+    const header = screen.queryByText('Contact Form')
+    expect(header).toBeVisible()
+    expect(header).toBeInTheDocument()
 });
 
 test('renders ONE error message if user enters less then 5 characters into firstname.', async () => {
-
+    //const firstInput = screen.getByPlaceholderText('Edd')
+    const firstInput = screen.getByLabelText(/first name/i)
+   // const firstError = screen.getByTestId('error')
+    //fireEvent.change(firstInput, { target: { value:'aaa' } })
+    userEvent.type(firstInput, 'aaa')
+    expect(firstInput).toHaveErrorMessage(text: string | RegExp)
+    
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
